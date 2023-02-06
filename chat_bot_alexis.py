@@ -1,10 +1,10 @@
 import random
 from flask import Flask, request
 from pymessenger.bot import Bot
-
+import projet_alexis
 app = Flask(__name__)
-ACCESS_TOKEN = 'EAAMZBtnfnSxUBAIysZAizPejgnFGY3c9tCZB7ChvY4zjOSjNMiLMZCA1uEksR87sggIe6dSSFMq59NaDqcSQqsnhJs3ZC4UZBVCNdsLWItYfY6eVW9xNGuWDsOFNCFRfG1dFWezeBjdz8I2ItZBZBj2hGDe9PtMxIveR2L9QcXlIDbQbnZCyneQE7'
-VERIFY_TOKEN = 'VERIFY_TOKEN'
+ACCESS_TOKEN = ''
+VERIFY_TOKEN = ''
 bot = Bot(ACCESS_TOKEN)
 
 #We will receive messages that Facebook sends our bot at this endpoint
@@ -38,16 +38,18 @@ def receive_message():
 def verify_fb_token(token_sent):
     #take token sent by facebook and verify it matches the verify token you sent
     #if they match, allow the request, else return an error
+    print(f"mon token c est ca ehe: {token_sent} !!!")
     if token_sent == VERIFY_TOKEN:
+        print("Le token c good")
         return request.args.get("hub.challenge")
-    return 'Invalid verification token'
+    return 'Invalid verification token - ceci est un test non vulgaire'
 
 
 #chooses a random message to send to the user
 def get_message():
-    sample_responses = ["You are stunning!", "We're proud of you.", "Keep on being you!", "We're greatful to know you :)"]
-    # return selected item to the user
-    return random.choice(sample_responses)
+    responses =  projet_alexis.get_liens('akira')
+    # return selected item to the user"
+    return responses
 
 #uses PyMessenger to send response to user
 def send_message(recipient_id, response):
@@ -57,3 +59,5 @@ def send_message(recipient_id, response):
 
 if __name__ == "__main__":
     app.run()
+
+# https://4036-2a01-cb08-81a2-9100-606b-59b6-239b-93e9.eu.ngrok.io
